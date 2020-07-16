@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public class TripOS {
 
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     public static Entity create(int userSize, LocalDate minDate, LocalDate maxDate) {
         Entity tripOS = new Entity();
         tripOS.baseDate = minDate.toEpochDay();
@@ -24,13 +26,12 @@ public class TripOS {
         private int days;
         private long baseDate;
         private Map<String, int[]> tripGroup;
-        private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         /**
          * 从事件记录系统获取用户某一（天）的事件标记
          *
          * @param user  用户标识
-         * @param index 获取日期在日程数组的下标
+         * @param index 日期在日程数组的下标
          */
         private int check(String user, int index) {
             final int[] trip = tripGroup.get(user);
@@ -53,7 +54,7 @@ public class TripOS {
             startIndex = safeIndex(startIndex);
             endIndex = safeIndex(endIndex);
             while (startIndex <= endIndex) {
-                ints[startIndex++] = val;
+                ints[startIndex++] |= val;
             }
         }
 
